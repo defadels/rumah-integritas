@@ -1,0 +1,15 @@
+.tags{
+    text-align: center;
+    padding-bottom: 20px;
+    .btn{
+        border-radius: 20px;
+        padding: 5px 20px;
+        font-size: 14px;
+        background-color: #0098a6;
+        color: #fff;
+        opacity: 0.8;
+        &:hover{
+            opacity: 0.6;
+        }
+    }
+}

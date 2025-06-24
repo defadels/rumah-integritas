@@ -1,0 +1,11 @@
+{
+    "name": "HasilPeriksa",
+    "alias": "hasilperiksa",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\HasilPeriksa\\Providers\\HasilPeriksaServiceProvider"
+    ],
+    "files": []
+}

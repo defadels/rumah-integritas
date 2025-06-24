@@ -1,0 +1,10 @@
+.ads-left,
+.ads-right{
+    position: fixed;
+    width: 120px;
+    left: 0;
+}
+.ads-right{
+    right: 0;
+    left: auto;
+}

@@ -1,0 +1,35 @@
+.box{
+    border-radius: 8px;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    border: 1px solid #e5e5e5;
+    padding: 20px 0;
+    h3{
+        border-left: 8px solid #FF7742;
+        font-size: 18px;
+        font-weight: bold;
+        padding-left: 12px;
+        margin-bottom: 12px !important;
+    }
+    .more{
+        font-size: 14px;
+        color: #0098A6;
+        font-weight: 500;
+        line-height: 0;
+        margin-right: 12px;
+        span{
+            vertical-align: middle;
+        }
+    }
+    .row{
+        padding: 0 20px;
+    }
+    img{
+        border-radius: 8px;
+    }
+}
+.infografis{
+    .col-lg-6{
+        margin-bottom: 20px;
+    }
+}

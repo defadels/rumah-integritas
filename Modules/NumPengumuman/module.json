@@ -1,0 +1,11 @@
+{
+    "name": "NumPengumuman",
+    "alias": "numpengumuman",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\NumPengumuman\\Providers\\NumPengumumanServiceProvider"
+    ],
+    "files": []
+}

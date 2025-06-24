@@ -1,0 +1,11 @@
+{
+    "name": "PengajuanKonsumsi",
+    "alias": "pengajuankonsumsi",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\PengajuanKonsumsi\\Providers\\PengajuanKonsumsiServiceProvider"
+    ],
+    "files": []
+}

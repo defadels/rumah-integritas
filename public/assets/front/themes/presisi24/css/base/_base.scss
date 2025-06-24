@@ -1,0 +1,31 @@
+body{
+    font: normal 1rem/1.6rem 'Roboto', Arial, Helvetica, Sans-serif;
+    background-color: #F5F5F6;
+    padding-top: 160px;
+    a{
+        color: #333;
+        text-decoration: none;
+        &:hover{
+            color: #0098A6;
+        }
+    }
+    .banner{
+        margin-bottom: 20px;
+        img{
+            width: 100%;
+            border-radius: 8px;
+        }
+    }
+    .page-link{
+        color: #0098A6;
+    }
+    .material-symbols-outlined{
+        vertical-align: middle;
+        font-size: 100%;
+    }
+}
+@media (min-width: 1200px){
+    .container, .container-sm, .container-md, .container-lg, .container-xl {
+        max-width: 1012px;
+    }
+}

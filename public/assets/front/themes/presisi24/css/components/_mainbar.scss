@@ -1,0 +1,54 @@
+.mainbar{
+    .inbox{
+        padding: 0 20px;
+        h2{
+            font-weight: 700;
+            padding-bottom: 20px;
+        }
+        iframe{
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        ol{
+            padding-bottom: 10px;
+        }
+        figure{
+            margin: 20px 0;
+            figcaption{
+                background-color: #e5e5e5;
+                font-size: 11px;
+                border-radius: 0 0 10px 10px;
+                padding: 4px 16px;
+            }
+        }
+        .btn-outline{
+            border: 1px solid #0098A6;
+            color: #0098A6;
+            border-radius: 10px;
+            font-size: 11px;
+            &:hover{
+                background-color: #0098A6;
+                color: #ffffff;
+            }
+        }
+        .writer,
+        .editor{
+            font-size: 14px;
+            color: #999999;
+            line-height: 140%;
+            strong{
+                color: #333333;
+            }
+        }
+        .writer{
+            img{
+                width: 40px;
+                height: 40px;
+                border-radius: 40px;
+                float: left;
+                margin-right: 10px;
+                margin-top: -2px;
+            }
+        }
+    }
+}

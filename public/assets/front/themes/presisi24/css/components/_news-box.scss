@@ -1,0 +1,47 @@
+.news-box{
+    .wrap{
+        position: relative;
+        height: 405px;
+    }
+    .box-media{
+        overflow: hidden auto;
+        height: 100%;
+    }
+    .media{
+        border-top: 1px solid #e5e5e5;
+        padding: 16px;
+        display: flex;
+        img{
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 16px;
+        }
+        .media-body{
+            display: block;
+            margin-top: -10px;
+        }
+        .cat{
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #999999;
+        }
+        h4{
+            font-size: 14px;
+            line-height: 18px;
+            font-weight: 700;
+            margin: 0;
+            padding: 0;
+        }
+        time{
+            font-size: 11px;
+            color: #999999;
+        }
+    }
+}
+.news-box-1{
+    .wrap{
+        height: 540px;
+    }
+}

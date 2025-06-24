@@ -1,0 +1,11 @@
+{
+    "name": "NumSlider",
+    "alias": "numslider",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\NumSlider\\Providers\\NumSliderServiceProvider"
+    ],
+    "files": []
+}

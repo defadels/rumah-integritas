@@ -1,0 +1,23 @@
+.video{
+    h4{
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 500;
+        padding-top: 12px;
+        padding-bottom: 0;
+        margin: 0;
+    }
+    time{
+        font-size: 11px;
+        color: #999999;
+        margin: 0;
+        padding: 0;
+    }
+    .col-lg-6{
+        padding-bottom: 20px;
+    }
+    img{
+        aspect-ratio: 9 / 16;
+        object-fit: cover;
+    }
+}

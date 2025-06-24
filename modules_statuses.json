@@ -1,0 +1,22 @@
+{
+    "Backend": true,
+    "Users": true,
+    "Login": true,
+    "Dapodik": true,
+    "Master": true,
+    "Home": true,
+    "NumPosts": true,
+    "NumPengumuman": true,
+    "NumPhoto": true,
+    "NumRedaksi": true,
+    "NumSettings": true,
+    "NumSlider": true,
+    "NumVideo": true,
+    "NumAds": true,
+    "HasilPeriksa": true,
+    "BarangPakaiHabis": true,
+    "PemeliharaanBmd": true,
+    "PengajuanKonsumsi": true,
+    "KartuKendali": true,
+    "ReportServices": true
+}

@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/kartukendali",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\KartuKendali\\": "app/",
+            "Modules\\KartuKendali\\Database\\Factories\\": "database/factories/",
+            "Modules\\KartuKendali\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\KartuKendali\\Tests\\": "tests/"
+        }
+    }
+}

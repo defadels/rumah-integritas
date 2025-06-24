@@ -1,0 +1,11 @@
+{
+    "name": "Dapodik",
+    "alias": "dapodik",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Dapodik\\Providers\\DapodikServiceProvider"
+    ],
+    "files": []
+}

@@ -1,0 +1,11 @@
+{
+    "name": "NumPosts",
+    "alias": "numposts",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\NumPosts\\Providers\\NumPostsServiceProvider"
+    ],
+    "files": []
+}

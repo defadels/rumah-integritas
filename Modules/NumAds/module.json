@@ -1,0 +1,11 @@
+{
+    "name": "NumAds",
+    "alias": "numads",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\NumAds\\Providers\\NumAdsServiceProvider"
+    ],
+    "files": []
+}

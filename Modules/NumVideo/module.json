@@ -1,0 +1,11 @@
+{
+    "name": "NumVideo",
+    "alias": "numvideo",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\NumVideo\\Providers\\NumVideoServiceProvider"
+    ],
+    "files": []
+}

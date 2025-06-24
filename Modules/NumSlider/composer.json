@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/numslider",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\NumSlider\\": "app/",
+            "Modules\\NumSlider\\Database\\Factories\\": "database/factories/",
+            "Modules\\NumSlider\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\NumSlider\\Tests\\": "tests/"
+        }
+    }
+}

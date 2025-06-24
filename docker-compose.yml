@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: rumah-integritas
+      MYSQL_USER: laravel_user
+      MYSQL_PASSWORD: laravel_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - network_mysql
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mariadb
+      PMA_USER: laravel_user
+      PMA_PASSWORD: laravel_password
+    ports:
+      - "8080:80"
+    networks:
+      - network_mysql
+
+  laravel:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rumah_integritas
+    restart: always
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mariadb
+    networks:
+      - network_mysql
+
+volumes:
+  mariadb_data:
+
+networks:
+  network_mysql:
+    driver: bridge

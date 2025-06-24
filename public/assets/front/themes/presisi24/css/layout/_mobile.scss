@@ -1,0 +1,32 @@
+@media (max-width: 980px){
+    body{
+        padding-top: 0;
+    }
+    header{
+        position: relative;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        .search-form{
+            margin-bottom: 20px;
+        }
+        time{
+            margin-bottom: -80px;
+        }
+        .navbar{
+            margin-top: -30px;
+        }
+    }
+    .infografis{
+        img{
+            margin-bottom: 20px;
+        }
+    }
+    .video{
+        img{
+            margin: 0;
+        }
+        .col-lg-3{
+            margin-bottom: 20px;
+        }
+    }
+}

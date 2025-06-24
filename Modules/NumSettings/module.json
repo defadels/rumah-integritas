@@ -1,0 +1,11 @@
+{
+    "name": "NumSettings",
+    "alias": "numsettings",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\NumSettings\\Providers\\NumSettingsServiceProvider"
+    ],
+    "files": []
+}

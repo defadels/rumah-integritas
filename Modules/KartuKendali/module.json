@@ -1,0 +1,11 @@
+{
+    "name": "KartuKendali",
+    "alias": "kartukendali",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\KartuKendali\\Providers\\KartuKendaliServiceProvider"
+    ],
+    "files": []
+}

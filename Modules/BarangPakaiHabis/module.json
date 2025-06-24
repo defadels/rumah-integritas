@@ -1,0 +1,11 @@
+{
+    "name": "BarangPakaiHabis",
+    "alias": "barangpakaihabis",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\BarangPakaiHabis\\Providers\\BarangPakaiHabisServiceProvider"
+    ],
+    "files": []
+}

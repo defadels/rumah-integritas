@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/pengajuankonsumsi",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\PengajuanKonsumsi\\": "app/",
+            "Modules\\PengajuanKonsumsi\\Database\\Factories\\": "database/factories/",
+            "Modules\\PengajuanKonsumsi\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\PengajuanKonsumsi\\Tests\\": "tests/"
+        }
+    }
+}

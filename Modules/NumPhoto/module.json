@@ -1,0 +1,11 @@
+{
+    "name": "NumPhoto",
+    "alias": "numphoto",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\NumPhoto\\Providers\\NumPhotoServiceProvider"
+    ],
+    "files": []
+}

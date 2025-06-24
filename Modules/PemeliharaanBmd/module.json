@@ -1,0 +1,11 @@
+{
+    "name": "PemeliharaanBmd",
+    "alias": "pemeliharaanbmd",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\PemeliharaanBmd\\Providers\\PemeliharaanBmdServiceProvider"
+    ],
+    "files": []
+}

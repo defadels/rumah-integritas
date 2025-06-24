@@ -1,0 +1,30 @@
+@import 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap';
+@import 'https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined';
+@import 'bootstrap/scss/bootstrap';
+
+//base
+@import 'base/base';
+
+//components
+@import 'components/breaking-news';
+@import 'components/box';
+@import 'components/video';
+@import 'components/main-news';
+@import 'components/news-box';
+@import 'components/news-carousel';
+@import 'components/mainbar';
+@import 'components/breadcrumb';
+@import 'components/ads';
+@import 'components/tags';
+
+//layout
+@import 'layout/header';
+@import 'layout/footer';
+@import 'layout/mobile';
+
+//dark
+@import 'base/dark';
+
+
+
+

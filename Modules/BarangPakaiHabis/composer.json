@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/barangpakaihabis",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\BarangPakaiHabis\\": "app/",
+            "Modules\\BarangPakaiHabis\\Database\\Factories\\": "database/factories/",
+            "Modules\\BarangPakaiHabis\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\BarangPakaiHabis\\Tests\\": "tests/"
+        }
+    }
+}
