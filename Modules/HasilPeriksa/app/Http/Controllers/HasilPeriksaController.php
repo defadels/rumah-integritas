@@ -14,6 +14,7 @@ use Modules\HasilPeriksa\Models\FormHasilPeriksaModel;
 use Modules\Users\Models\JenisKonsumsiModel;
 use Modules\Users\Models\SubBagModel;
 use Modules\Users\Models\UsersModel;
+use Str;
 
 class HasilPeriksaController extends Controller
 {
@@ -94,21 +95,39 @@ class HasilPeriksaController extends Controller
             $receiver=$request->receiver;
         }
 
-        $fileattach = $request->file('file_attach');
-        $filename = null;
-        if ($fileattach) {
-            $filename = uniqid() . time() . '.' . $fileattach->getClientOriginalExtension();
-            //Storage::disk('uploads')->put('filename', $filename);
-            $store = Storage::putFileAs('hasil', $fileattach,$filename);
-        }
+        // $fileattach = $request->file('file_attach');
+        // $filename = null;
+        // if ($fileattach) {
+        //     $filename = uniqid() . time() . '.' . $fileattach->getClientOriginalExtension();
+
+        //     //Storage::disk('uploads')->put('filename', $filename);
+        //     $store = Storage::putFileAs('hasil', $fileattach,$filename);
+        // }
 
         $save = FormHasilPeriksaModel::create([
             'name' => $request->name,
-            'file_attach' => $filename,
             'users_id' => \Auth::user()->id,
             'users_receiver' => $receiver
             //'created_by' => \Auth::user()->id
         ]);
+
+        if($request->hasFile('file_attach')){
+             $filename = Str::uuid();
+             $path = 'hasil/';
+             $file_extension = $request->file_attach->extension();
+             $save->file_attach = $path.$filename.".".$file_extension;
+
+             $dokumen = $request->file('file_attach');
+             $destinationPath = storage_path('app/public/'. $path);
+
+             $dokumen->move($destinationPath, $filename . '.' . $file_extension);
+
+             $file_url = Storage::url($save->file_attach);
+
+             $save->save();
+
+        }
+
         if ($save) {
             \App\Helpers\NumesaHelper::log('INFO', 'Menambahkan Data Hasil Pemeriksaan Tim :' . $request->name, \Auth::user()->id);
             \Session::flash('messages', 'Berhasil disimpan');
@@ -168,16 +187,44 @@ class HasilPeriksaController extends Controller
 
         $fileattach = $request->file('file_attach');
         $filename=null;
+
+
         if ($fileattach) {
-            $filename = uniqid() . time() . '.' . $fileattach->getClientOriginalExtension();
+            // $filename = uniqid() . time() . '.' . $fileattach->getClientOriginalExtension();
             //Storage::disk('uploads')->put('filename', $filename);
-            $store = Storage::putFileAs('hasil', $fileattach,$filename);
-            $save = FormHasilPeriksaModel::find($id)->update([
-                'name'=>$request->name,
-                'file_attach'=>$filename,
-                'users_id' => \Auth::user()->id,
-                'users_receiver' => $receiver
-            ]);
+            // $store = Storage::putFileAs('hasil', $fileattach,$filename);
+
+            $save = FormHasilPeriksaModel::find($id);
+
+            $save->name = $request->name;
+            $save->users_id = \Auth::user()->id;
+            $save->users_receiver = $receiver;
+
+            if($request->hasFile('file_attach')){
+
+                $dokumen_lama = $save->file_attach;
+
+                $filename = Str::uuid();
+                $path = 'hasil/';
+                $file_extension = $request->file_attach->extension();
+                $save->file_attach = $path.$filename.".".$file_extension;
+
+                $dokumen = $request->file('file_attach');
+                $destinationPath = storage_path('app/public/'. $path);
+
+                $dokumen->move($destinationPath, $filename . '.' . $file_extension);
+
+                $file_url = Storage::url($save->file_attach);
+
+                $save->save();
+
+                if($dokumen_lama != null){
+                    Storage::disk('public')->delete($dokumen_lama);
+                }
+
+            }
+
+            $save->save();
 
             if($save){
                 \App\Helpers\NumesaHelper::log('INFO', 'Melakukan Perubahan Data Hasil Pemeriksaan Tim :' . $request->name, \Auth::user()->id);
@@ -217,8 +264,8 @@ class HasilPeriksaController extends Controller
         $row = FormHasilPeriksaModel::where(['id'=>$pid,'users_id'=>\Auth::user()->id])->first();
         if ($row) {
             $name = $row->name;
-            if (file_exists(public_path('hasil'.'/'.$row->file_attach))) {
-                Storage::delete('hasil'.'/'.$row->file_attach);
+            if (Storage::url($row->file_attach) != null) {
+                Storage::disk('public')->delete($row->file_attach);
                 $delete = FormHasilPeriksaModel::where(['id'=> $pid,'users_id'=>\Auth::user()->id])->delete();
                 if (!$delete) {
                     return response()->json(['status' => 'error', 'pid' => $pid, 'judul' => 'Failed!', 'pesan' => 'Data ' . $name . ' Gagal dihapus']);

@@ -239,7 +239,7 @@
                                 <h5 class="m-0 fw-normal">${element.name}</h5>
                             </td>
                             <td>
-                                <a href="{{asset('hasil')}}/${element.file_attach}" target="_blank">${element.file_attach}</a>
+                                <a href="{{Storage::url('${element.file_attach}')}}" target="_blank">${element.file_attach}</a>
                             </td>
                         `;
                         if(element.users_id == currentId){

@@ -13,9 +13,9 @@
     var gmaps_api_key = "{{config('app.gmaps_api_key')}}";
 </script>
 <!-- Vendor js -->
-<script src="{{asset('')}}assets/themes/material/assets/js/vendor.min.js"></script>
+<script src="{{asset('assets/themes/material/assets/js/vendor.min.js')}}"></script>
 <!-- App js -->
-<script src="{{asset('')}}assets/themes/material/assets/js/app.min.js"></script>
+<script src="{{asset('assets/themes/material/assets/js/app.min.js')}}"></script>
 @yield('script')
 </body>
 </html>

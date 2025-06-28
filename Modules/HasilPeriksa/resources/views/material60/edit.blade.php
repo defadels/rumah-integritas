@@ -101,7 +101,7 @@
 
                             <h4 class="header-title mb-3">Preview Old File</h4>
 
-                            <iframe src="{{ asset("hasil/{$hasil->file_attach}") }}#zoom=FitH" frameborder="0" width="100%"></iframe>
+                            <iframe src="{{ Storage::url($hasil->file_attach) }}#zoom=FitH" frameborder="0" width="100%"></iframe>
                         </div>
                     </div> <!-- end card-->
                 </div>
