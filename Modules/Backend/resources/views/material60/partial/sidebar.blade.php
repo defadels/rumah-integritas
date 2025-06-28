@@ -54,6 +54,8 @@
                     </a>
                 </li>
 
+                @if(auth()->user()->hasRole('administrator') || auth()->user()->hasRole('OPD') || auth()->user()->hasRole('Pengaju') || auth()->user()->hasRole('Supervisi'))
+
                 <li>
                     <a href="#sidebarEksternal" data-bs-toggle="collapse">
                         <i class="mdi mdi-newspaper"></i>
@@ -70,6 +72,11 @@
                         </ul>
                     </div>
                 </li>
+
+                @endif
+
+
+                @if(auth()->user()->hasRole('administrator') || auth()->user()->hasRole('Pengaju') || auth()->user()->hasRole('Supervisi'))
 
                 <li>
                     <a href="#sidebarInternal" data-bs-toggle="collapse">
@@ -102,6 +109,8 @@
                         </ul>
                     </div>
                 </li>
+
+                @endif
 
                 @if (auth()->user()->hasRole('administrator'))
 

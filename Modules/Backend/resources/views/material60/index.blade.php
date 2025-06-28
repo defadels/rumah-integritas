@@ -38,6 +38,10 @@
 
             <div class="row">
 
+                {{-- Pengajuan Makan Minum --}}
+
+                @if(auth()->user()->hasRole('administrator') || auth()->user()->hasRole('Pengaju') || auth()->user()->hasRole('Supervisi'))
+
                 <div class="col-xl-6">
                     <div class="card">
                         <div class="card-body">
@@ -96,6 +100,13 @@
                     </div> <!-- end card-->
                 </div> <!-- end col -->
 
+                @endif
+
+
+                {{-- Hasil Pemeriksaan Awal Tim --}}
+
+                 @if(auth()->user()->hasRole('administrator') || auth()->user()->hasRole('OPD'))
+
                 <div class="col-xl-6">
                     <div class="card">
                         <div class="card-body">
@@ -140,10 +151,10 @@
                                                 <a href="{{asset('hasil').'/'.$row->file_attach}}" target="_blank">{{$row->file_attach}}</a>
                                             </td>
                                             <td>
-                                                @if ($row->users_id == auth()->user()->id)
+                                                {{-- @if ($row->users_id == auth()->user()->id) --}}
                                                     <a href="{{route('form.hasil.edit',['id'=>encrypt($row->id)])}}" class="badge badge-outline-warning">Edit</a>
                                                     <a href="#" class="delete-data-pemeriksaan badge badge-outline-danger" data-pid="{{encrypt($row->id)}}">Delete</a>
-                                                @endif
+                                                {{-- @endif --}}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -154,10 +165,16 @@
                     </div> <!-- end card-->
                 </div> <!-- end col -->
 
+                @endif
+
             </div>
             <!-- end row -->
 
             <div class="row">
+
+                {{-- Pengajuan Pemeliharaan BMD --}}
+
+                @if(auth()->user()->hasRole('administrator') || auth()->user()->hasRole('Pengaju') || auth()->user()->hasRole('Supervisi'))
 
                 <div class="col-xl-12">
                     <div class="card">
@@ -220,6 +237,13 @@
                         </div>
                     </div> <!-- end card-->
                 </div> <!-- end col -->
+
+                @endif
+
+
+                {{-- Agenda Inspektorat --}}
+
+                @if(auth()->user()->hasRole('administrator') || auth()->user()->hasRole('Pengaju') || auth()->user()->hasRole('Supervisi'))
 
                 <div class="col-xl-12">
                     <div class="card">
@@ -303,10 +327,16 @@
                     </div> <!-- end card-->
                 </div> <!-- end col -->
 
+                @endif
+
             </div>
             <!-- end row -->
 
             <div class="row">
+
+                {{-- Kartu Kendali --}}
+
+                 @if(auth()->user()->hasRole('administrator') || auth()->user()->hasRole('Pengaju') || auth()->user()->hasRole('Supervisi'))
 
                 <div class="col-xl-12">
                     <div class="card">
@@ -369,6 +399,8 @@
                         </div>
                     </div> <!-- end card-->
                 </div> <!-- end col -->
+
+                @endif
             </div>
             <!-- end row -->
 

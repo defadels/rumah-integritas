@@ -31,11 +31,11 @@ class BackendController extends Controller
         $data_v['konsumsi'] = FormKonsumsiModel::limit(5)->orderBy('id','DESC')->get();
         $data_v['pemeliharaan'] = FormPeliharaModel::limit(5)->orderBy('id','DESC')->get();
         $data_v['barang_pakai_habis'] = FormBarangPakaiHabisModel::limit(5)->orderBy('id','DESC')->get();
-        if(auth()->user()->hasRole('administrator')){
+        // if(auth()->user()->hasRole('administrator')){
             $data_v['hasil'] = DB::select("select h.id,h.name,h.file_attach,h.users_id,h.users_receiver, u.name as fullname, h.created_at from form_hasil_periksa h left join users u on u.id=h.users_id order by h.created_at limit 5");
-        }else{
-            $data_v['hasil'] = DB::select("select h.id,h.name,h.file_attach,h.users_id,h.users_receiver, u.name as fullname, h.created_at from form_hasil_periksa h left join users u on u.id=h.users_id where h.users_id = :user_id or h.users_receiver= :receiver order by h.created_at limit 25",['user_id'=>\Auth::user()->id,'receiver'=>\Auth::user()->id]);
-        }
+        // }else{
+        //     $data_v['hasil'] = DB::select("select h.id,h.name,h.file_attach,h.users_id,h.users_receiver, u.name as fullname, h.created_at from form_hasil_periksa h left join users u on u.id=h.users_id where h.users_id = :user_id or h.users_receiver= :receiver order by h.created_at limit 25",['user_id'=>\Auth::user()->id,'receiver'=>\Auth::user()->id]);
+        // }
         $data_v['kartu_kendali'] = FormKartuKendaliModel::limit(5)->orderBy('id','DESC')->get();
         return view('backend::'.$this->theme.'.index')->with($data_v);
     }
