@@ -11,9 +11,12 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Modules\KartuKendali\Models\FormKartuKendaliModel;
+use App\Traits\ApprovalTrait;
 
 class KartuKendaliController extends Controller
 {
+    use ApprovalTrait;
+    
     protected $theme;
     protected $breadcrumb;
 
@@ -22,6 +25,23 @@ class KartuKendaliController extends Controller
         $this->theme = config('app.backend_theme');
         $this->breadcrumb = [];
     }
+
+    /**
+     * Implementation for ApprovalTrait
+     */
+    protected function getModelClass()
+    {
+        return FormKartuKendaliModel::class;
+    }
+
+    /**
+     * Implementation for ApprovalTrait
+     */
+    protected function getSubmissionName($submission)
+    {
+        return $submission->pekerjaan;
+    }
+
     /**
      * Display a listing of the resource.
      */

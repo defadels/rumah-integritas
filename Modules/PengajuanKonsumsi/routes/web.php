@@ -23,4 +23,9 @@ Route::middleware('auth')->group(function () {
     Route::get(config('app.backend').'/'.'form-makan-minum/edit/{id}', [PengajuanKonsumsiController::class,'edit'])->name('form.makan.edit');
     Route::post(config('app.backend').'/'.'form-makan-minum/edit/{id}', [PengajuanKonsumsiController::class,'update'])->name('form.makan.update');
     Route::post(config('app.backend').'/'.'form-makan-minum/delete', [PengajuanKonsumsiController::class,'destroy'])->name('form.makan.delete');
+    
+    // Approval routes
+    Route::get(config('app.backend').'/'.'form-makan-minum/detail/{id}', [PengajuanKonsumsiController::class,'detail'])->name('form.makan.detail');
+    Route::post(config('app.backend').'/'.'form-makan-minum/approve', [PengajuanKonsumsiController::class,'approve'])->name('form.makan.approve');
+    Route::post(config('app.backend').'/'.'form-makan-minum/reject', [PengajuanKonsumsiController::class,'reject'])->name('form.makan.reject');
 });

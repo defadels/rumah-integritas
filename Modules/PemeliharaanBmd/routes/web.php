@@ -22,4 +22,9 @@ Route::middleware('auth')->group(function () {
     Route::get(config('app.backend').'/'.'form-pelihara/edit/{id}', [PemeliharaanBmdController::class,'edit'])->name('form.pelihara.edit');
     Route::post(config('app.backend').'/'.'form-pelihara/edit/{id}', [PemeliharaanBmdController::class, 'update'])->name('form.pelihara.update');
     Route::post(config('app.backend').'/'.'form-pelihara/delete', [PemeliharaanBmdController::class, 'destroy'])->name('form.pelihara.delete');
+    
+    // Approval routes
+    Route::get(config('app.backend').'/'.'form-pelihara/detail/{id}', [PemeliharaanBmdController::class,'detail'])->name('form.pelihara.detail');
+    Route::post(config('app.backend').'/'.'form-pelihara/approve', [PemeliharaanBmdController::class,'approve'])->name('form.pelihara.approve');
+    Route::post(config('app.backend').'/'.'form-pelihara/reject', [PemeliharaanBmdController::class,'reject'])->name('form.pelihara.reject');
 });

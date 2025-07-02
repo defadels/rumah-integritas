@@ -3,6 +3,7 @@
 namespace Modules\PengajuanKonsumsi\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApprovalTrait;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -17,6 +18,8 @@ use Modules\Users\Models\SubBagRelModel;
 
 class PengajuanKonsumsiController extends Controller
 {
+    use ApprovalTrait;
+    
     protected $theme;
     protected $breadcrumb;
 
@@ -25,6 +28,23 @@ class PengajuanKonsumsiController extends Controller
         $this->theme = config('app.backend_theme');
         $this->breadcrumb = [];
     }
+
+    /**
+     * Implementation for ApprovalTrait
+     */
+    protected function getModelClass()
+    {
+        return FormKonsumsiModel::class;
+    }
+
+    /**
+     * Implementation for ApprovalTrait
+     */
+    protected function getSubmissionName($submission)
+    {
+        return $submission->name . ' - ' . $submission->judul_rapat;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -76,8 +96,8 @@ class PengajuanKonsumsiController extends Controller
             'judul_rapat' => $request->judul_rapat,
             'waktu' => $request->waktu,
             'jml_konsumsi' => $request->jml_konsumsi,
-            'setuju' => $request->setuju
-            //'created_by' => \Auth::user()->id
+            'setuju' => $request->setuju,
+            'created_by' => \Auth::user()->id
         ]);
         if ($save) {
             $arr_jenis = $request->checkbox_jenis_konsumsi;
@@ -153,7 +173,8 @@ class PengajuanKonsumsiController extends Controller
             'judul_rapat' => $request->judul_rapat,
             'waktu' => $request->waktu,
             'jml_konsumsi' => $request->jml_konsumsi,
-            'setuju' => $request->setuju
+            'setuju' => $request->setuju,
+            'updated_by' => \Auth::user()->id
         ]);
         if($save){
             $arr_jenis = $request->checkbox_jenis_konsumsi;

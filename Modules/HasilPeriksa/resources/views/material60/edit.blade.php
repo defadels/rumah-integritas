@@ -22,9 +22,23 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="header-title">Form</h4>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="header-title mb-0">Form Edit Dokumen</h4>
+                                <div>
+                                    <a href="{{ route('form.hasil.index') }}" class="btn btn-outline-secondary btn-sm">
+                                        <i class="mdi mdi-arrow-left me-1"></i>
+                                        Kembali ke Daftar
+                                    </a>
+                                    @if($hasil)
+                                        <a href="{{ route('form.hasil.conversation', ['id' => encrypt($hasil->id)]) }}" class="btn btn-outline-primary btn-sm">
+                                            <i class="mdi mdi-message-text-outline me-1"></i>
+                                            Lihat Percakapan
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
                             <p class="text-muted font-14">
-
+                                Silakan edit informasi dokumen di bawah ini.
                             </p>
 
                             @if(Session::has('messages'))

@@ -3,6 +3,7 @@
 namespace Modules\BarangPakaiHabis\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApprovalTrait;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -12,6 +13,8 @@ use Modules\BarangPakaiHabis\Models\FormBarangPakaiHabisModel;
 
 class BarangPakaiHabisController extends Controller
 {
+    use ApprovalTrait;
+    
     protected $theme;
     protected $breadcrumb;
 
@@ -20,6 +23,23 @@ class BarangPakaiHabisController extends Controller
         $this->theme = config('app.backend_theme');
         $this->breadcrumb = [];
     }
+
+    /**
+     * Implementation for ApprovalTrait
+     */
+    protected function getModelClass()
+    {
+        return FormBarangPakaiHabisModel::class;
+    }
+
+    /**
+     * Implementation for ApprovalTrait
+     */
+    protected function getSubmissionName($submission)
+    {
+        return $submission->namakegiatan;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -79,9 +99,12 @@ class BarangPakaiHabisController extends Controller
             }
         }
 
+        // Add created_by
+        $post['created_by'] = \Auth::user()->id;
+
         $save = FormBarangPakaiHabisModel::create($post);
         if ($save) {
-            \App\Helpers\NumesaHelper::log('INFO', 'Menambahkan Data Pengajuan Barang Pakai Habis :' . $request->name, \Auth::user()->id);
+            \App\Helpers\NumesaHelper::log('INFO', 'Menambahkan Data Pengajuan Barang Pakai Habis :' . $request->namakegiatan, \Auth::user()->id);
             \Session::flash('messages', 'Berhasil disimpan');
             return Redirect::route('form.barang.pakai.habis.create')->with('status', 'created');
         }
@@ -142,9 +165,12 @@ class BarangPakaiHabisController extends Controller
             }
         }
 
+        // Add updated_by
+        $post['updated_by'] = \Auth::user()->id;
+
         $save = FormBarangPakaiHabisModel::find($id)->update($post);
         if($save){
-            \App\Helpers\NumesaHelper::log('INFO', 'Melakukan Perubahan Data Pengajuan Barang Pakai Habis :' . $request->name, \Auth::user()->id);
+            \App\Helpers\NumesaHelper::log('INFO', 'Melakukan Perubahan Data Pengajuan Barang Pakai Habis :' . $request->namakegiatan, \Auth::user()->id);
             \Session::flash('messages', 'Berhasil melakukan perubahan');
             return Redirect::route('form.barang.pakai.habis.edit',['id'=>encrypt($id)])->with('status', 'updated');
         }
@@ -167,7 +193,7 @@ class BarangPakaiHabisController extends Controller
         $pid = decrypt($request->pid);
         $row = FormBarangPakaiHabisModel::where('id', $pid)->first();
         if ($row) {
-            $name = $row->name;
+            $name = $row->namakegiatan;
             $delete = FormBarangPakaiHabisModel::where('id', $pid)->delete();
             if ($delete) {
                 \App\Helpers\NumesaHelper::log('CRITICAL', 'Delete Data Barang Habis Pakai :' . $name, \Auth::user()->id);

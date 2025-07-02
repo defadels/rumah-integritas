@@ -3,6 +3,7 @@
 namespace Modules\HasilPeriksa\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApprovalTrait;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -18,6 +19,8 @@ use Str;
 
 class HasilPeriksaController extends Controller
 {
+    use ApprovalTrait;
+    
     protected $theme;
     protected $breadcrumb;
 
@@ -28,11 +31,65 @@ class HasilPeriksaController extends Controller
     }
 
     /**
+     * Implementation for ApprovalTrait
+     */
+    protected function getModelClass()
+    {
+        return FormHasilPeriksaModel::class;
+    }
+
+    /**
+     * Implementation for ApprovalTrait
+     */
+    protected function getSubmissionName($submission)
+    {
+        return $submission->name;
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('hasilperiksa::index');
+        $data_v['title'] = 'Hasil Pemeriksaan Awal Tim';
+        $data_v['title_sub'] = 'Daftar Hasil Pemeriksaan Awal Tim';
+        array_push($this->breadcrumb, ['title' => 'Sistem Eksternal', 'url' => '#', 'active' => false]);
+        array_push($this->breadcrumb, ['title' => 'Hasil Pemeriksaan Awal Tim', 'url' => '#', 'active' => true]);
+        $data_v['breadcrumb'] = $this->breadcrumb;
+
+        // Get documents with reply functionality
+        if(auth()->user()->hasRole('administrator')){
+            // Administrator can see all documents
+            $data_v['hasil'] = DB::select("
+                select h.id,h.name,h.file_attach,h.users_id,h.users_receiver, 
+                       u.name as fullname, ur.name as receiver_name, h.created_at, 
+                       h.status_approval, h.approved_by, h.approved_at, h.approval_notes, 
+                       h.parent_id, h.is_reply, h.reply_level, h.reply_message,
+                       (select count(*) from form_hasil_periksa r where r.parent_id = h.id) as reply_count 
+                from form_hasil_periksa h 
+                left join users u on u.id=h.users_id 
+                left join users ur on ur.id=h.users_receiver 
+                where h.is_reply = 0 
+                order by h.created_at desc limit 50
+            ");
+        } else {
+            // Regular users can only see documents they are involved in
+            $data_v['hasil'] = DB::select("
+                select h.id,h.name,h.file_attach,h.users_id,h.users_receiver, 
+                       u.name as fullname, ur.name as receiver_name, h.created_at, 
+                       h.status_approval, h.approved_by, h.approved_at, h.approval_notes, 
+                       h.parent_id, h.is_reply, h.reply_level, h.reply_message,
+                       (select count(*) from form_hasil_periksa r where r.parent_id = h.id) as reply_count 
+                from form_hasil_periksa h 
+                left join users u on u.id=h.users_id 
+                left join users ur on ur.id=h.users_receiver 
+                where (h.users_id = :user_id or h.users_receiver = :receiver) 
+                and h.is_reply = 0 
+                order by h.created_at desc limit 50
+            ", ['user_id' => auth()->user()->id, 'receiver' => auth()->user()->id]);
+        }
+
+        return view('hasilperiksa::'.$this->theme.'.index')->with($data_v);
     }
 
     /**
@@ -297,5 +354,151 @@ class HasilPeriksaController extends Controller
 
         return response()->json(['success'=>true,'current_id'=>auth()->user()->id,'result'=>$collection],200);
 
+    }
+
+    /**
+     * Show form to reply to a document
+     */
+    public function reply($id)
+    {
+        $id = decrypt($id);
+        $parent = FormHasilPeriksaModel::with(['sender', 'receiver'])->findOrFail($id);
+        
+        // Check if user has permission to reply
+        if (!auth()->user()->hasRole('administrator') && 
+            $parent->users_id != auth()->user()->id && 
+            $parent->users_receiver != auth()->user()->id) {
+            abort(403, 'Anda tidak memiliki akses untuk membalas dokumen ini');
+        }
+
+        $data_v['title'] = 'Balas Dokumen - ' . $parent->name;
+        $data_v['title_sub'] = 'Balas Dokumen';
+        array_push($this->breadcrumb, ['title' => 'Sistem Eksternal', 'url' => '#', 'active' => false]);
+        array_push($this->breadcrumb, ['title' => 'Hasil Pemeriksaan Awal', 'url' => route('form.hasil.index'), 'active' => false]);
+        array_push($this->breadcrumb, ['title' => 'Balas', 'url' => '#', 'active' => true]);
+        $data_v['breadcrumb'] = $this->breadcrumb;
+        $data_v['parent'] = $parent;
+
+        return view('hasilperiksa::'.$this->theme.'.reply')->with($data_v);
+    }
+
+    /**
+     * Store reply to a document
+     */
+    public function storeReply(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'parent_id' => 'required|exists:form_hasil_periksa,id',
+            'name' => 'required|string|max:255',
+            'reply_message' => 'required|string',
+        ], [
+            'name.required' => 'Nama dokumen balasan tidak boleh kosong',
+            'reply_message.required' => 'Pesan balasan tidak boleh kosong',
+            'parent_id.required' => 'ID dokumen induk tidak valid',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $parent = FormHasilPeriksaModel::findOrFail($request->parent_id);
+        
+        // Check permission
+        if (!auth()->user()->hasRole('administrator') && 
+            $parent->users_id != auth()->user()->id && 
+            $parent->users_receiver != auth()->user()->id) {
+            abort(403, 'Anda tidak memiliki akses untuk membalas dokumen ini');
+        }
+
+        // Determine receiver (if current user is sender, receiver becomes the original receiver, and vice versa)
+        $receiver = ($parent->users_id == auth()->user()->id) ? $parent->users_receiver : $parent->users_id;
+
+        $replyData = [
+            'name' => $request->name,
+            'reply_message' => $request->reply_message,
+            'parent_id' => $request->parent_id,
+            'is_reply' => true,
+            'reply_level' => $parent->reply_level + 1,
+            'users_id' => auth()->user()->id,
+            'users_receiver' => $receiver,
+            'status_approval' => 'pending',
+        ];
+
+        $reply = FormHasilPeriksaModel::create($replyData);
+
+        // Handle file upload if exists
+        if ($request->hasFile('file_attach')) {
+            $filename = Str::uuid();
+            $path = 'hasil/replies/';
+            $file_extension = $request->file_attach->extension();
+            $reply->file_attach = $path . $filename . "." . $file_extension;
+
+            $dokumen = $request->file('file_attach');
+            $destinationPath = storage_path('app/public/' . $path);
+
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+
+            $dokumen->move($destinationPath, $filename . '.' . $file_extension);
+            $reply->save();
+        }
+
+        if ($reply) {
+            \App\Helpers\NumesaHelper::log('INFO', 'Membalas dokumen: ' . $parent->name . ' dengan balasan: ' . $request->name, auth()->user()->id);
+            \Session::flash('messages', 'Balasan berhasil dikirim');
+            return redirect()->route('form.hasil.conversation', ['id' => encrypt($request->parent_id)]);
+        }
+
+        return back()->withErrors(['error' => 'Gagal mengirim balasan'])->withInput();
+    }
+
+    /**
+     * Show conversation (main document with all replies)
+     */
+    public function conversation($id)
+    {
+        $id = decrypt($id);
+        $document = FormHasilPeriksaModel::with([
+            'sender', 
+            'receiver', 
+            'replies.sender', 
+            'replies.receiver'
+        ])->findOrFail($id);
+
+        // If this is a reply, get the parent document
+        if ($document->is_reply) {
+            $document = $document->parent()->with([
+                'sender', 
+                'receiver', 
+                'replies.sender', 
+                'replies.receiver'
+            ])->first();
+        }
+
+        // Check permission
+        if (!auth()->user()->hasRole('administrator') && 
+            $document->users_id != auth()->user()->id && 
+            $document->users_receiver != auth()->user()->id) {
+            
+            // Check if user is involved in any of the replies
+            $hasAccessToReplies = $document->replies->contains(function ($reply) {
+                return $reply->users_id == auth()->user()->id || $reply->users_receiver == auth()->user()->id;
+            });
+            
+            if (!$hasAccessToReplies) {
+                abort(403, 'Anda tidak memiliki akses untuk melihat percakapan ini');
+            }
+        }
+
+        $data_v['title'] = 'Percakapan - ' . $document->name;
+        $data_v['title_sub'] = 'Percakapan Dokumen';
+        array_push($this->breadcrumb, ['title' => 'Sistem Eksternal', 'url' => '#', 'active' => false]);
+        array_push($this->breadcrumb, ['title' => 'Hasil Pemeriksaan Awal', 'url' => route('form.hasil.index'), 'active' => false]);
+        array_push($this->breadcrumb, ['title' => 'Percakapan', 'url' => '#', 'active' => true]);
+        $data_v['breadcrumb'] = $this->breadcrumb;
+        $data_v['document'] = $document;
+
+        return view('hasilperiksa::'.$this->theme.'.conversation')->with($data_v);
     }
 }

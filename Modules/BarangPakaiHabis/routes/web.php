@@ -22,4 +22,9 @@ Route::middleware('auth')->group(function () {
     Route::get(config('app.backend').'/'.'form-barang-pakai-habis/edit/{id}', [BarangPakaiHabisController::class,'edit'])->name('form.barang.pakai.habis.edit');
     Route::post(config('app.backend').'/'.'form-barang-pakai-habis/edit/{id}', [BarangPakaiHabisController::class,'update'])->name('form.barang.pakai.habis.update');
     Route::post(config('app.backend').'/'.'form-barang-pakai-habis/delete', [BarangPakaiHabisController::class,'destroy'])->name('form.barang.pakai.habis.delete');
+    
+    // Approval routes
+    Route::get(config('app.backend').'/'.'form-barang-pakai-habis/detail/{id}', [BarangPakaiHabisController::class,'detail'])->name('form.barang.pakai.habis.detail');
+    Route::post(config('app.backend').'/'.'form-barang-pakai-habis/approve', [BarangPakaiHabisController::class,'approve'])->name('form.barang.pakai.habis.approve');
+    Route::post(config('app.backend').'/'.'form-barang-pakai-habis/reject', [BarangPakaiHabisController::class,'reject'])->name('form.barang.pakai.habis.reject');
 });

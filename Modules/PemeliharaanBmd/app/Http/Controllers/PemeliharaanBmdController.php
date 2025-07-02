@@ -3,6 +3,7 @@
 namespace Modules\PemeliharaanBmd\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApprovalTrait;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -13,6 +14,8 @@ use Modules\Users\Models\JenisPemeliharaanModel;
 
 class PemeliharaanBmdController extends Controller
 {
+    use ApprovalTrait;
+    
     protected $theme;
     protected $breadcrumb;
 
@@ -20,6 +23,22 @@ class PemeliharaanBmdController extends Controller
     {
         $this->theme = config('app.backend_theme');
         $this->breadcrumb = [];
+    }
+
+    /**
+     * Implementation for ApprovalTrait
+     */
+    protected function getModelClass()
+    {
+        return FormPeliharaModel::class;
+    }
+
+    /**
+     * Implementation for ApprovalTrait
+     */
+    protected function getSubmissionName($submission)
+    {
+        return $submission->name . ' - ' . $submission->jenis_keluhan;
     }
     /**
      * Display a listing of the resource.

@@ -16,9 +16,15 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="header-title">Form</h4>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="header-title mb-0">Form Tambah Dokumen</h4>
+                                <a href="{{ route('form.hasil.index') }}" class="btn btn-outline-secondary btn-sm">
+                                    <i class="mdi mdi-arrow-left me-1"></i>
+                                    Kembali ke Daftar
+                                </a>
+                            </div>
                             <p class="text-muted font-14">
-
+                                Silakan isi form di bawah untuk menambahkan hasil pemeriksaan awal tim.
                             </p>
 
                             @if(Session::has('messages'))
