@@ -11,7 +11,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Modules\KartuKendali\Models\FormKartuKendaliModel;
-use App\Traits\ApprovalTrait;
+use App\Http\Controllers\ApprovalTrait;
 
 class KartuKendaliController extends Controller
 {
@@ -47,7 +47,15 @@ class KartuKendaliController extends Controller
      */
     public function index()
     {
-        return view('kartukendali::index');
+        $data_v['title'] = 'Kartu Kendali Kegiatan';
+        $data_v['title_sub'] = 'Daftar Kartu Kendali';
+        array_push($this->breadcrumb, ['title' => 'Sistem Internal', 'url' => '#', 'active' => false]);
+        array_push($this->breadcrumb, ['title' => 'Kartu Kendali', 'url' => '#', 'active' => true]);
+        $data_v['breadcrumb'] = $this->breadcrumb;
+        
+        $data_v['kartu_kendali'] = FormKartuKendaliModel::orderBy('id', 'DESC')->get();
+        
+        return view('kartukendali::index')->with($data_v);
     }
 
     /**
@@ -109,8 +117,8 @@ class KartuKendaliController extends Controller
             'spp_no' => $request->spp_no,
             'spp_nilai' => $spp_nilai,
             'sisa_anggaran' => $sisa_anggaran,
-            'keterangan' => $request->keterangan
-            //'created_by' => \Auth::user()->id
+            'keterangan' => $request->keterangan,
+            'created_by' => \Auth::user()->id
         ]);
         if ($save) {
             \App\Helpers\NumesaHelper::log('INFO', 'Menambahkan Data Kendali', \Auth::user()->id);
@@ -187,7 +195,8 @@ class KartuKendaliController extends Controller
             'spp_no' => $request->spp_no,
             'spp_nilai' => $spp_nilai,
             'sisa_anggaran' => $sisa_anggaran,
-            'keterangan' => $request->keterangan
+            'keterangan' => $request->keterangan,
+            'updated_by' => \Auth::user()->id
         ]);
         if($save){
             \App\Helpers\NumesaHelper::log('INFO', 'Update Data Kartu kendali :' . $request->name, \Auth::user()->id);
@@ -213,7 +222,7 @@ class KartuKendaliController extends Controller
         $pid = decrypt($request->pid);
         $row = FormKartuKendaliModel::where('id', $pid)->first();
         if ($row) {
-            $name = $row->name;
+            $name = $row->pekerjaan;
             $delete = FormKartuKendaliModel::where('id', $pid)->delete();
             if (!$delete) {
                 return response()->json(['status' => 'error', 'pid' => $pid, 'judul' => 'Failed!', 'pesan' => 'Gagal Menghapus Data ' . $name]);

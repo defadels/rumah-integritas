@@ -7,11 +7,11 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
-use Modules\Users\Models\FormBarangPakaiHabisModel;
-use Modules\Users\Models\FormHasilPeriksaModel;
-use Modules\Users\Models\FormKartuKendaliModel;
-use Modules\Users\Models\FormKonsumsiModel;
-use Modules\Users\Models\FormPeliharaModel;
+use Modules\BarangPakaiHabis\Models\FormBarangPakaiHabisModel;
+use Modules\HasilPeriksa\Models\FormHasilPeriksaModel;
+use Modules\KartuKendali\Models\FormKartuKendaliModel;
+use Modules\PengajuanKonsumsi\Models\FormKonsumsiModel;
+use Modules\PemeliharaanBmd\Models\FormPeliharaModel;
 
 class BackendController extends Controller
 {
