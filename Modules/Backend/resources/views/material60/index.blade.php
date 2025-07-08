@@ -196,14 +196,14 @@
                                                     <a href="{{route('form.hasil.reply',['id'=>encrypt($row->id)])}}" class="btn btn-primary">
                                                         <i class="mdi mdi-reply"></i> Balas
                                                     </a>
-                                                    {{-- @if ($row->users_id == auth()->user()->id) --}}
+                                                    @if ($row->users_id == auth()->user()->id)
                                                         <a href="{{route('form.hasil.edit',['id'=>encrypt($row->id)])}}" class="btn btn-warning">
                                                             <i class="mdi mdi-pencil"></i> Edit
                                                         </a>
                                                         <button class="btn btn-danger delete-data-pemeriksaan" data-pid="{{encrypt($row->id)}}">
                                                             <i class="mdi mdi-delete"></i> Delete
                                                         </button>
-                                                    {{-- @endif --}}
+                                                    @endif
                                                 </div>
                                             </td>
                                         </tr>

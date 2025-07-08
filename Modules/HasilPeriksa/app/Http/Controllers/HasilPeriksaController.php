@@ -213,9 +213,9 @@ class HasilPeriksaController extends Controller
         array_push($this->breadcrumb, ['title' => 'Edit', 'url' => '#', 'active' => true]);
         $data_v['breadcrumb'] = $this->breadcrumb;
         $data_v['hasil']=FormHasilPeriksaModel::where(['id'=>$id,'users_id'=>\Auth::user()->id])->first();
-        if(auth()->user()->hasRole('administrator')){
+        // if(auth()->user()->hasRole('administrator') || auth()->user()->hasRole('OPD')){
             $data_v['users']=UsersModel::where('id','<>',\Auth::user()->id)->get();
-        }
+        // }
 
         return view('hasilperiksa::'.$this->theme.'.edit')->with($data_v);
     }
@@ -366,6 +366,7 @@ class HasilPeriksaController extends Controller
         
         // Check if user has permission to reply
         if (!auth()->user()->hasRole('administrator') && 
+            !auth()->user()->hasRole('OPD') &&
             $parent->users_id != auth()->user()->id && 
             $parent->users_receiver != auth()->user()->id) {
             abort(403, 'Anda tidak memiliki akses untuk membalas dokumen ini');
@@ -478,6 +479,7 @@ class HasilPeriksaController extends Controller
 
         // Check permission
         if (!auth()->user()->hasRole('administrator') && 
+            !auth()->user()->hasRole('OPD') &&
             $document->users_id != auth()->user()->id && 
             $document->users_receiver != auth()->user()->id) {
             
