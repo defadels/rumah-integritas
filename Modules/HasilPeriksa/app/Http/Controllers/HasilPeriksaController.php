@@ -213,9 +213,9 @@ class HasilPeriksaController extends Controller
         array_push($this->breadcrumb, ['title' => 'Edit', 'url' => '#', 'active' => true]);
         $data_v['breadcrumb'] = $this->breadcrumb;
         $data_v['hasil']=FormHasilPeriksaModel::where(['id'=>$id,'users_id'=>\Auth::user()->id])->first();
-        // if(auth()->user()->hasRole('administrator') || auth()->user()->hasRole('OPD')){
+        if(auth()->user()->hasRole('administrator') || auth()->user()->hasRole('OPD')){
             $data_v['users']=UsersModel::where('id','<>',\Auth::user()->id)->get();
-        // }
+        }
 
         return view('hasilperiksa::'.$this->theme.'.edit')->with($data_v);
     }
